@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Farro:wght@300;400;500;700&family=Instrument+Serif:ital@0;1&family=Stack+Sans+Text:wght@200..700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Farro:wght@300;400;500;700&family=Instrument+Serif:ital@0;1&family=Stack+Sans+Headline:wght@200..700&family=Stack+Sans+Text:wght@200..700&display=swap');
 
 @import "tailwindcss";
 
@@ -44,6 +44,10 @@
 
 .stack-sans-text {
   font-family: "Stack Sans Text", sans-serif;
+  font-style: normal;
+}
+.stack-sans-head {
+  font-family: "Stack Sans Headline", sans-serif;
   font-style: normal;
 }
 
@@ -903,4 +907,28 @@ html.lenis body {
     0 100%,
     0 clamp(30px, 8vw, 100px)
   );
+}
+
+
+.therapy-payment-upper-crd{
+  border-radius: 20px;
+  corner-bottom-left-shape: scoop;
+  corner-bottom-right-shape: scoop;
+}
+.therapy-payment-lower-crd{
+  border-radius: 20px;
+  corner-shape: scoop;
+}
+
+.therapy-faq-content {
+    max-height: 0;
+    transition: max-height 0.4s ease;
+}
+
+.therapy-faq-content p {
+    margin: 0;
+}
+
+.therapy-icon-close img {
+    transition: transform 0.3s ease;
 }

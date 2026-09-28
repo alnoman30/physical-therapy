@@ -1,0 +1,24 @@
+<svg width="306" height="157" viewBox="0 0 306 157" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_2_28033)">
+<rect x="76" width="1" height="157" fill="#86BD9F"/>
+<rect x="152" width="1" height="157" fill="#86BD9F"/>
+<rect x="228" width="1" height="157" fill="#86BD9F"/>
+<rect y="39" width="306" height="1" fill="#86BD9F"/>
+<rect y="78" width="306" height="1" fill="#86BD9F"/>
+<rect y="117" width="306" height="1" fill="#86BD9F"/>
+<circle cx="153.5" cy="78.5" r="61.5" fill="#86BD9F"/>
+<g clip-path="url(#clip1_2_28033)">
+<path d="M155.667 63H150.333C148.919 63 147.562 63.5619 146.562 64.5621C145.562 65.5623 145 66.9188 145 68.3333V111H161V68.3333C161 66.9188 160.438 65.5623 159.438 64.5621C158.438 63.5619 157.081 63 155.667 63Z" fill="white"/>
+<path d="M179.667 47H174.333C172.919 47 171.562 47.5619 170.562 48.5621C169.562 49.5623 169 50.9188 169 52.3333V111H185V52.3333C185 50.9188 184.438 49.5623 183.438 48.5621C182.438 47.5619 181.081 47 179.667 47Z" fill="white"/>
+<path d="M131.667 79H126.333C124.919 79 123.562 79.5619 122.562 80.5621C121.562 81.5623 121 82.9188 121 84.3333V111H137V84.3333C137 82.9188 136.438 81.5623 135.438 80.5621C134.438 79.5619 133.081 79 131.667 79Z" fill="white"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_2_28033">
+<rect width="306" height="157" fill="white"/>
+</clipPath>
+<clipPath id="clip1_2_28033">
+<rect width="64" height="64" fill="white" transform="translate(121 47)"/>
+</clipPath>
+</defs>
+</svg>

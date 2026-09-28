@@ -226,16 +226,30 @@ gsap.ticker.lagSmoothing(0);
     return;
   }
 
-  gsap.registerPlugin(typeof CustomEase !== "undefined" ? CustomEase : null);
+  var section = document.querySelector("#therappy-banner-section");
+
+  if (!section) {
+    console.warn("#therappy-banner-section not found.");
+    return;
+  }
+
+  // Register CustomEase if available
+  if (typeof CustomEase !== "undefined") {
+    gsap.registerPlugin(CustomEase);
+  }
 
   var EASE_OUT = "expo.out";
-  var EASE_SOFT = "power3.out";
 
   if (typeof CustomEase !== "undefined") {
     CustomEase.create("heroOut", "0.16, 1, 0.3, 1");
     EASE_OUT = "heroOut";
   }
 
+  var title = section.querySelector(".therapy-hero-title");
+
+  if (!title) return;
+
+  // Wrap each word
   function wrapWords(root) {
     var words = [];
 
@@ -248,20 +262,23 @@ gsap.ticker.lagSmoothing(0);
           if (part.trim() === "") {
             frag.appendChild(document.createTextNode(part));
           } else {
-            var outer = document.createElement("span");
-            outer.className = "hero-word-mask";
-            outer.style.display = "inline-block";
-            outer.style.overflow = "hidden";
-            outer.style.verticalAlign = "top";
+            var mask = document.createElement("span");
 
-            var inner = document.createElement("span");
-            inner.className = "hero-word";
-            inner.style.display = "inline-block";
-            inner.textContent = part;
+            mask.className = "hero-word-mask";
+            mask.style.display = "inline-block";
+            mask.style.overflow = "hidden";
+            mask.style.verticalAlign = "top";
 
-            outer.appendChild(inner);
-            frag.appendChild(outer);
-            words.push(inner);
+            var word = document.createElement("span");
+
+            word.className = "hero-word";
+            word.style.display = "inline-block";
+            word.textContent = part;
+
+            mask.appendChild(word);
+            frag.appendChild(mask);
+
+            words.push(word);
           }
         });
 
@@ -276,177 +293,26 @@ gsap.ticker.lagSmoothing(0);
     return words;
   }
 
-  var title = document.querySelector(".therapy-hero-title");
-  var desc = document.querySelector(".therapy-hero-desc");
-  var priceBox = document.querySelector(".therapy-hero-pricebox");
-  var cta = document.querySelector(".therapy-hero-cta");
-  var checkItems = gsap.utils.toArray(".therapy-hero-check-item");
-  var badges = document.querySelector(".therapy-hero-badges");
-  var videoPlayer = document.querySelector(".therapy-hero-videoplayer");
-
-  if (!title) return;
-
   var words = wrapWords(title);
 
+  // Initial state
   gsap.set(words, {
     yPercent: 120,
     opacity: 0
   });
 
-  gsap.set(desc, {
-    y: 24,
-    opacity: 0
-  });
-
-  gsap.set(priceBox, {
-    autoAlpha: 0,
-    x: -28,
-    scaleY: 0.85,
-    transformOrigin: "left top"
-  });
-
-  gsap.set(cta, {
-    y: 20,
-    opacity: 0,
-    scale: 0.94
-  });
-
-  gsap.set(checkItems, {
-    x: -18,
-    opacity: 0
-  });
-
-  gsap.set(badges, {
-    opacity: 0,
-    y: 12
-  });
-
-  if (videoPlayer) {
-    gsap.set(videoPlayer, {
-      opacity: 0,
-      scale: 1.02
-    });
-  }
-
-  var tl = gsap.timeline({
-    defaults: {
-      ease: EASE_OUT
-    },
+  // Stagger animation only
+  gsap.to(words, {
+    yPercent: 0,
+    opacity: 1,
+    duration: 1,
+    stagger: 0.045,
+    ease: EASE_OUT,
     delay: 0.15
   });
-
-  if (videoPlayer) {
-    tl.to(
-      videoPlayer,
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        ease: "power2.out"
-      },
-      0
-    );
-  }
-
-  tl.to(
-    words,
-    {
-      yPercent: 0,
-      opacity: 1,
-      duration: 1,
-      stagger: 0.045,
-      ease: EASE_OUT
-    },
-    0.15
-  );
-
-  tl.to(
-    desc,
-    {
-      y: 0,
-      opacity: 1,
-      duration: 0.8,
-      ease: EASE_SOFT
-    },
-    0.5
-  );
-
-  tl.to(
-    priceBox,
-    {
-      autoAlpha: 1,
-      x: 0,
-      scaleY: 1,
-      duration: 0.9,
-      ease: "power3.out"
-    },
-    0.7
-  );
-
-  tl.to(
-    cta,
-    {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      duration: 0.85,
-      ease: "back.out(1.6)"
-    },
-    0.9
-  );
-
-  tl.to(
-    checkItems,
-    {
-      x: 0,
-      opacity: 1,
-      duration: 0.6,
-      stagger: 0.12,
-      ease: EASE_SOFT
-    },
-    1.05
-  );
-
-  tl.to(
-    badges,
-    {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: EASE_SOFT
-    },
-    1.4
-  );
-
-  var magneticBtns = gsap.utils.toArray(".therapy-magnetic-btn");
-
-  magneticBtns.forEach(function (btn) {
-    var strength = 0.35;
-
-    btn.addEventListener("mousemove", function (e) {
-      var rect = btn.getBoundingClientRect();
-
-      var x = e.clientX - rect.left - rect.width / 2;
-      var y = e.clientY - rect.top - rect.height / 2;
-
-      gsap.to(btn, {
-        x: x * strength,
-        y: y * strength,
-        duration: 0.5,
-        ease: "power3.out"
-      });
-    });
-
-    btn.addEventListener("mouseleave", function () {
-      gsap.to(btn, {
-        x: 0,
-        y: 0,
-        duration: 0.6,
-        ease: "elastic.out(1, 0.4)"
-      });
-    });
-  });
 })();
+
+
 
 
 // therapy CTA button animation
@@ -517,36 +383,112 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Therapy section heading reveal
-gsap.registerPlugin(ScrollTrigger);
- 
-  document.querySelectorAll('.therapy-section-heading').forEach(heading => {
-    const tween = gsap.fromTo(
-      heading,
-      {
+document.addEventListener("DOMContentLoaded", () => {
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+
+  const headings = gsap.utils.toArray(".therapy-section-heading");
+
+  headings.forEach((heading) => {
+    let split;
+
+    const createAnimation = () => {
+      // Clean up the previous SplitText instance
+      if (split) {
+        split.revert();
+      }
+
+      // Create a new split based on the current screen width
+      split = new SplitText(heading, {
+        type: "lines",
+        linesClass: "split-line",
+        mask: "lines",
+      });
+
+      // Set initial state
+      gsap.set(split.lines, {
+        yPercent: 110,
         opacity: 0,
-        y: 28,
-        filter: 'blur(6px)'
-      },
-      {
+      });
+
+      // Create animation
+      gsap.to(split.lines, {
+        yPercent: 0,
         opacity: 1,
-        y: 0,
-        filter: 'blur(0px)',
-        ease: 'sine.out',
-        paused: true
-      }
-    );
- 
-    ScrollTrigger.create({
-      trigger: heading,
-      start: 'top 90%',
-      end: 'bottom 50%',
-      onUpdate: self => {
-        // progress only ever moves forward — scroll position drives it,
-        // but scrolling back up will never un-reveal it
-        if (self.progress > tween.progress()) {
-          tween.progress(self.progress);
-        }
-      }
+        duration: 1,
+        stagger: 0.12,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: heading,
+          start: "top 85%",
+          toggleActions: "play none none none",
+          invalidateOnRefresh: true,
+        },
+      });
+    };
+
+    createAnimation();
+
+    // Re-split when the window is resized
+    let resizeTimer;
+
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+
+      resizeTimer = setTimeout(() => {
+        // Kill existing ScrollTrigger for this heading
+        ScrollTrigger.getAll().forEach((trigger) => {
+          if (trigger.trigger === heading) {
+            trigger.kill();
+          }
+        });
+
+        createAnimation();
+
+        // Refresh ScrollTrigger positions
+        ScrollTrigger.refresh();
+      }, 250);
     });
   });
+});
+
+
+// Therapy FAQ section
+document.addEventListener("DOMContentLoaded", function () {
+    const faqItems = document.querySelectorAll(".therapy-faq-item");
+
+    faqItems.forEach(function (item) {
+        const trigger = item.querySelector(".therapy-faq-trigger");
+        const content = item.querySelector(".therapy-faq-content");
+        const icon = item.querySelector(".therapy-icon-close img");
+
+        trigger.addEventListener("click", function () {
+            const isOpen = item.classList.contains("active");
+
+            // Close all FAQs
+            faqItems.forEach(function (faq) {
+                faq.classList.remove("active");
+
+                const faqContent = faq.querySelector(".therapy-faq-content");
+                const faqIcon = faq.querySelector(".therapy-icon-close img");
+
+                faqContent.style.maxHeight = "0px";
+
+                if (faqIcon) {
+                    faqIcon.style.transform = "rotate(0deg)";
+                }
+            });
+
+            // Open clicked FAQ
+            if (!isOpen) {
+                item.classList.add("active");
+
+                content.style.maxHeight = content.scrollHeight + "px";
+
+                if (icon) {
+                    icon.style.transform = "rotate(45deg)";
+                }
+            }
+        });
+    });
+});
 
